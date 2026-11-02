@@ -1,0 +1,20 @@
+{
+  "app_title": "Plant Operational Intelligence",
+  "template": "Executive",
+  "date_column": "Date",
+  "dashboard_metrics": ["Output_MWh", "Fuel_tons", "Run_Hours", "Trips", "Downtime_Hours", "Efficiency_MWh_per_ton"],
+  "chart_metrics": ["Output_MWh", "Fuel_tons", "Downtime_Hours"],
+  "analysis_metrics": ["Output_MWh", "Fuel_tons", "Run_Hours", "Downtime_Hours", "Efficiency_MWh_per_ton"],
+  "table_columns": ["Date", "Shift", "Line", "Output_MWh", "Target_MWh", "Fuel_tons", "Run_Hours", "Trips", "Downtime_Hours", "Quality_pct"],
+  "dimensions": ["Shift", "Line"],
+  "formulas": [
+    {"name": "Efficiency_MWh_per_ton", "expression": "[Output_MWh] / [Fuel_tons]"},
+    {"name": "Output_Attainment_pct", "expression": "[Output_MWh] / [Target_MWh] * 100"}
+  ],
+  "rules": [
+    {"metric": "Output_MWh", "aggregation": "Average", "direction": "Higher is better", "threshold_mode": "Header", "target_column": "Target_MWh"},
+    {"metric": "Trips", "aggregation": "Sum", "direction": "Lower is better", "threshold_mode": "Constant", "target": 2},
+    {"metric": "Quality_pct", "aggregation": "Average", "direction": "Between low and high", "threshold_mode": "Header", "low_column": "Low_Limit", "high_column": "High_Limit"}
+  ],
+  "anomaly_window": 7
+}
